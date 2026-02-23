@@ -1,6 +1,6 @@
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity('posts')  // ← Thêm decorator này!
+@Entity('posts')
 export class Post {
     @PrimaryGeneratedColumn()
     id: number;
