@@ -1,12 +1,16 @@
 import { Controller, Get, Param, Query } from '@nestjs/common';
 import { HelloService } from './hello.service';
+import { ConfigService } from '@nestjs/config';
 
 // locahost:3000/hello
 
 @Controller('hello')
 export class HelloController {
     // dependency injection
-    constructor(private readonly helloService: HelloService) { }
+    constructor(
+        private readonly helloService: HelloService,
+        private readonly configService: ConfigService
+    ) { }
 
     @Get()
     getHello(): string {
@@ -23,5 +27,11 @@ export class HelloController {
     @Get('query')
     getHelloWithQuery(@Query('name') name: string): string {
         return this.helloService.getHelloWithName(name || 'world');
+    }
+
+    @Get('app')
+    getHelloApp() {
+        const appName = this.configService.get<string>('APP_NAME', 'defaultName');
+        return this.helloService.getHelloWithName(appName);
     }
 }
