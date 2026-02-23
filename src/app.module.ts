@@ -8,6 +8,8 @@ import { PostsModule } from './posts/posts.module';
 import Joi from 'joi';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Post } from './posts/entities/post.entity';
+import { AuthModule } from './auth/auth.module';
+import { User } from './auth/entities/user.entity';
 
 // root module: use all the sub modules
 
@@ -29,9 +31,10 @@ import { Post } from './posts/entities/post.entity';
       username: 'postgres',
       password: '123456',
       database: 'nestjs_core_fundamentals',
-      entities: [Post],
+      entities: [Post, User],
       synchronize: true, // only for 'developement' mode
     }),
+    AuthModule,
   ],
   controllers: [AppController],
   providers: [AppService],
