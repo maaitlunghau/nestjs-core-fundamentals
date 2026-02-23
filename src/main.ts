@@ -9,12 +9,15 @@ async function bootstrap() {
 
   // global settings
   // env
+  // ...
+
+  // validating incoming requests globally
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true, // tự động loại bỏ các properties KHÔNG có trong DTO
       forbidNonWhitelisted: true, // ném ra lỗi nếu có properties THỪA
       transform: true, // tự động chuyển đổi kiểu dữ liệu từ 'string' sang 'number'
-      // disableErrorMessages: true // ẩn chi tiết lỗi validatation message, chỉ nên dùng trong môi trường prod
+      disableErrorMessages: false // ẩn chi tiết lỗi validatation message, chỉ nên TRUE khi dùng trong môi trường prod
     })
   );
 
