@@ -9,54 +9,48 @@ import {
     ParseIntPipe,
     Patch,
     Post,
-    Query
 } from '@nestjs/common';
 import { PostsService } from './posts.service';
-import type { PostInterface } from './interface/post.interface';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { PostExistsPipe } from './pipes/post-exists.pipe';
+import { Post as PostEntity } from './entities/post.entity';
 
 @Controller('posts')
 export class PostsController {
     constructor(private readonly postsService: PostsService) { }
 
     @Get()
-    findAll(@Query('search') search?: string): PostInterface[] {
-        const extractAllPosts = this.postsService.findAll();
-
-        if (search) {
-            return extractAllPosts.filter(post =>
-                post.title.toLowerCase().includes(search.toLowerCase()) ||
-                post.content.toLowerCase().includes(search.toLowerCase())
-            );
-        }
-
-        return extractAllPosts;
+    async findAll(): Promise<PostEntity[]> {
+        return this.postsService.findAll();
     }
 
     @Get(':id')
-    findOne(@Param('id', ParseIntPipe, PostExistsPipe) id: number): PostInterface {
+    async findOne(
+        @Param('id', ParseIntPipe, PostExistsPipe) id: number
+    ): Promise<PostEntity> {
         return this.postsService.findOne(id);
     }
 
     @Post()
     @HttpCode(HttpStatus.CREATED)
-    create(@Body() createPostData: CreatePostDto): PostInterface {
+    async create(@Body() createPostData: CreatePostDto): Promise<PostEntity> {
         return this.postsService.create(createPostData);
     }
 
     @Patch(':id')
-    update(
+    async update(
         @Param('id', ParseIntPipe, PostExistsPipe) id: number,
         @Body() updatePostData: UpdatePostDto
-    ): PostInterface {
+    ): Promise<PostEntity> {
         return this.postsService.update(id, updatePostData)
     }
 
     @Delete(':id')
     @HttpCode(HttpStatus.NO_CONTENT)
-    remove(@Param('id', ParseIntPipe, PostExistsPipe) id: number): void {
+    async remove(
+        @Param('id', ParseIntPipe, PostExistsPipe) id: number
+    ): Promise<void> {
         this.postsService.remove(id);
     }
 }
