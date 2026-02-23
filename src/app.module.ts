@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { HelloModule } from './hello/hello.module';
 import { UserModule } from './user/user.module';
 import { ConfigModule } from '@nestjs/config';
+import { PostsModule } from './posts/posts.module';
 import Joi from 'joi';
 
 // root module: use all the sub modules
@@ -17,7 +18,8 @@ import Joi from 'joi';
       }),
     }),
     HelloModule,
-    UserModule],
+    UserModule,
+    PostsModule],
   controllers: [AppController],
   providers: [AppService],
 })
