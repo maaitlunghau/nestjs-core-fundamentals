@@ -1,5 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { ValidationPipe } from '@nestjs/common';
 
 // root file: entry point of ur nestjs application
 
@@ -8,6 +9,14 @@ async function bootstrap() {
 
   // global settings
   // env
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true, // tự động loại bỏ các properties KHÔNG có trong DTO
+      forbidNonWhitelisted: true, // ném ra lỗi nếu có properties THỪA
+      transform: true, // tự động chuyển đổi kiểu dữ liệu từ 'string' sang 'number'
+      // disableErrorMessages: true // ẩn chi tiết lỗi validatation message, chỉ nên dùng trong môi trường prod
+    })
+  );
 
   // starts a HTTP server
   await app.listen(process.env.PORT ?? 3000);
