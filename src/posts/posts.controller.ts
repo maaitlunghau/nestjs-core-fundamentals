@@ -9,12 +9,10 @@ import {
     ParseIntPipe,
     Patch,
     Post,
-    Put,
     Query
 } from '@nestjs/common';
 import { PostsService } from './posts.service';
 import type { PostInterface } from './posts/interface/post.interface';
-import { number } from 'joi';
 
 @Controller('posts')
 export class PostsController {
